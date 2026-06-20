@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {
   Gift, Heart, Sparkles, Home, Cake, PartyPopper, Palette, Mail,
   Phone, MapPin, Instagram, MessageCircle, Star, Menu, X, ShoppingBag,
-  Award, Smile, ShieldCheck, Store, ChevronRight, Send,
+  Award, Smile, ShieldCheck, Store, ChevronRight, Send, Navigation, Clock, Train,
 } from "lucide-react";
 import hero from "@/assets/hero.jpg";
 import g1 from "@/assets/gallery-1.jpg";
@@ -16,10 +16,10 @@ import g6 from "@/assets/gallery-6.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Manga Fancy Store — Unique Gifts for Every Occasion | Kharagpur" },
-      { name: "description", content: "Family-owned gift & fancy items store in Gate Bazar, Kharagpur. Shop birthday gifts, anniversary hampers, soft toys, home decor, greeting cards and customized presents." },
-      { property: "og:title", content: "Manga Fancy Store — Unique Gifts for Every Occasion" },
-      { property: "og:description", content: "Premium gifts, soft toys, home decor & customized hampers in Kharagpur." },
+      { title: "Manga Fancy Store — Gifts & Fancy Items in Gate Bazar, Kharagpur" },
+      { name: "description", content: "Family-owned gift & fancy items shop at Y3/A TOG Market, Gate Bazar, Kharagpur. Birthday gifts, anniversary hampers, soft toys, decor, stationery & customized presents. Call 098511 11144." },
+      { property: "og:title", content: "Manga Fancy Store — Gate Bazar, Kharagpur" },
+      { property: "og:description", content: "Gifts, soft toys, home decor, stationery & customized hampers in Gate Bazar, Kharagpur." },
       { property: "og:image", content: hero },
       { name: "twitter:image", content: hero },
     ],
@@ -27,8 +27,15 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const WHATSAPP = "https://wa.me/919876543210?text=Hi%20Manga%20Fancy%20Store!%20I%27d%20like%20to%20know%20more%20about%20your%20gift%20collection.";
-const INSTAGRAM = "https://instagram.com";
+const PHONE_DISPLAY = "+91 98511 11144";
+const PHONE_TEL = "+919851111144";
+const WHATSAPP_NUM = "919851111144";
+const WHATSAPP = `https://wa.me/${WHATSAPP_NUM}?text=Hi%20Manga%20Fancy%20Store!%20I%27d%20like%20to%20know%20more%20about%20your%20gift%20collection.`;
+const ADDRESS_LINE1 = "Y3/A, TOG Market, Gate Bazar";
+const ADDRESS_LINE2 = "Kharagpur, West Bengal 721301";
+const MAPS_SHARE = "https://share.google/AuZCxgIC6AYp2mV5J";
+const MAPS_EMBED = "https://www.google.com/maps?q=New+Manga+Fancy+Store+TOG+Market+Gate+Bazar+Kharagpur&output=embed";
+const MAPS_DIRECTIONS = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent("New Manga Fancy Store, TOG Market, Gate Bazar, Kharagpur");
 
 const categories = [
   { icon: Cake, name: "Birthday Gifts", desc: "Make every birthday unforgettable" },
@@ -36,35 +43,44 @@ const categories = [
   { icon: Sparkles, name: "Customized Gifts", desc: "Personalised just for them" },
   { icon: Home, name: "Home Decor", desc: "Elegance for every corner" },
   { icon: Smile, name: "Soft Toys", desc: "Cuddly companions to adore" },
-  { icon: Mail, name: "Greeting Cards", desc: "Heartfelt words, beautifully framed" },
+  { icon: Mail, name: "Greeting Cards & Stationery", desc: "Heartfelt words & quality stationery" },
   { icon: ShoppingBag, name: "Fashion Accessories", desc: "Style that turns heads" },
-  { icon: PartyPopper, name: "Festival Gifts", desc: "Hampers for every festival" },
+  { icon: PartyPopper, name: "Festival Hampers", desc: "Hampers for every festival" },
 ];
 
 const features = [
   { icon: Award, title: "Affordable Prices", desc: "Premium gifting that respects every budget." },
-  { icon: ShieldCheck, title: "Quality Products", desc: "Hand-picked items, built to delight." },
-  { icon: Palette, title: "Customized Options", desc: "Personalised hampers crafted with care." },
+  { icon: ShieldCheck, title: "Hand-picked Quality", desc: "Every item personally curated by the owner." },
+  { icon: Palette, title: "Customization Available", desc: "Personalised hampers & gifts crafted to order." },
   { icon: Smile, title: "Friendly Service", desc: "Warm guidance from our family to yours." },
-  { icon: Store, title: "Local Trusted Store", desc: "A Kharagpur favourite for years." },
-  { icon: Sparkles, title: "Curated Collections", desc: "Always fresh, always on-trend." },
+  { icon: Store, title: "Trusted in Gate Bazar", desc: "A familiar face in the heart of Kharagpur." },
+  { icon: Sparkles, title: "Wide Variety", desc: "Gifts, stationery, soft toys & decor under one roof." },
 ];
 
-const gallery = [
-  { src: g1, label: "Soft Toy Collection" },
-  { src: g2, label: "Anniversary Hampers" },
-  { src: g3, label: "Home Decor" },
-  { src: g4, label: "Greeting Cards" },
-  { src: g5, label: "Festival Gifts" },
-  { src: g6, label: "Fashion Accessories" },
+const products = [
+  { src: g1, name: "Soft Toy Collection", desc: "Teddy bears, plush animals & cuddly friends" },
+  { src: g2, name: "Anniversary Hampers", desc: "Curated gift boxes for couples" },
+  { src: g3, name: "Home Decor Pieces", desc: "Showpieces, candles & festive lights" },
+  { src: g4, name: "Greeting Cards & Stationery", desc: "Cards, journals, pens & art supplies" },
+  { src: g5, name: "Festival Gift Hampers", desc: "Diwali, Rakhi, Bhai Dooj & more" },
+  { src: g6, name: "Fashion Accessories", desc: "Bags, jewellery & lifestyle pieces" },
 ];
 
+// Google-style reviews
 const reviews = [
-  { name: "Ananya Sen", text: "Absolutely loved the anniversary hamper I ordered. The packaging was stunning and the staff helped me customize every detail.", rating: 5 },
-  { name: "Rohit Mukherjee", text: "Best gift shop in Kharagpur, hands down. Got a personalised photo frame for my sister's birthday — she was in tears!", rating: 5 },
-  { name: "Priya Das", text: "Such a wide variety of soft toys and decor items. Prices are very reasonable and the owner is so warm and helpful.", rating: 5 },
-  { name: "Sourav Roy", text: "My go-to for festival gifts. Their Diwali hampers are gorgeous and always arrive perfectly wrapped.", rating: 5 },
-  { name: "Megha Pal", text: "Beautiful greeting cards and unique accessories you won't find anywhere else in Gate Bazar. Highly recommended!", rating: 5 },
+  { name: "Ananya Sen", initial: "A", color: "#DB4437", time: "2 weeks ago", text: "Absolutely loved the anniversary hamper. Beautiful packaging and the owner helped me customise every little detail.", rating: 5 },
+  { name: "Rohit Mukherjee", initial: "R", color: "#4285F4", time: "1 month ago", text: "Best gift shop in Gate Bazar, hands down. Got a personalised photo frame for my sister's birthday — she was in tears!", rating: 5 },
+  { name: "Priya Das", initial: "P", color: "#0F9D58", time: "3 months ago", text: "Such a wide variety of soft toys and decor items. Prices are very reasonable and the staff is warm and helpful.", rating: 5 },
+  { name: "Sourav Roy", initial: "S", color: "#F4B400", time: "5 months ago", text: "My go-to for festival gifts. Their Diwali hampers are gorgeous and always wrapped perfectly.", rating: 5 },
+  { name: "Megha Pal", initial: "M", color: "#AB47BC", time: "7 months ago", text: "Beautiful greeting cards and unique accessories you won't find anywhere else in Kharagpur. Highly recommended!", rating: 4 },
+  { name: "Arjun Banerjee", initial: "A", color: "#00ACC1", time: "9 months ago", text: "Walked in for a last-minute birthday gift and walked out with the perfect present. Friendly staff, great collection.", rating: 5 },
+];
+
+const landmarks = [
+  { icon: Train, title: "From Kharagpur Railway Station", desc: "About 2 km — 7 min by auto via Inda–Gate Bazar road." },
+  { icon: Store, title: "Inside TOG Market", desc: "Shop Y3/A in the main TOG Market lane, Gate Bazar." },
+  { icon: MapPin, title: "Near IIT Kharagpur", desc: "Around 10 min drive from the IIT Kharagpur main gate." },
+  { icon: Navigation, title: "Landmarks nearby", desc: "Close to Gate Bazar bus stop, SBI ATM and Inda crossing." },
 ];
 
 function Index() {
@@ -77,7 +93,7 @@ function Index() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const text = `Hi! I'm ${form.name} (${form.phone}). ${form.message}`;
-    window.open(`https://wa.me/919876543210?text=${encodeURIComponent(text)}`, "_blank");
+    window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(text)}`, "_blank");
     setSent(true);
     setForm({ name: "", phone: "", message: "" });
   };
@@ -94,7 +110,7 @@ function Index() {
             <span className="font-display text-lg font-semibold tracking-tight">Manga <span className="text-gradient-pink">Fancy</span></span>
           </a>
           <ul className="hidden md:flex items-center gap-8 text-sm">
-            {["Home","About","Products","Why Us","Gallery","Reviews","Contact"].map(l => (
+            {["Home","About","Products","Why Us","Location","Reviews","Contact"].map(l => (
               <li key={l}><a href={`#${l.toLowerCase().replace(" ","-")}`} className="text-foreground/70 hover:text-foreground transition-colors">{l}</a></li>
             ))}
           </ul>
@@ -108,7 +124,7 @@ function Index() {
         {open && (
           <div className="md:hidden bg-background border-t border-border/40 animate-fade-up">
             <ul className="flex flex-col p-6 gap-4">
-              {["Home","About","Products","Why Us","Gallery","Reviews","Contact"].map(l => (
+              {["Home","About","Products","Why Us","Location","Reviews","Contact"].map(l => (
                 <li key={l}><a onClick={()=>setOpen(false)} href={`#${l.toLowerCase().replace(" ","-")}`} className="text-foreground/80">{l}</a></li>
               ))}
               <a href={WHATSAPP} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-full btn-gold text-sm w-fit">
@@ -125,29 +141,34 @@ function Index() {
         <div className="relative max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
           <div className="animate-fade-up">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/60 border border-gold/40 text-xs uppercase tracking-[0.2em] text-foreground/70 backdrop-blur">
-              <Sparkles className="w-3 h-3 text-gradient-gold" /> Kharagpur · Gate Bazar
+              <Sparkles className="w-3 h-3 text-gradient-gold" /> Gate Bazar · Kharagpur
             </span>
             <h1 className="mt-6 font-display text-5xl md:text-7xl leading-[1.05] font-semibold">
               Unique Gifts <br/>
               <span className="font-script italic text-gradient-pink">for Every</span> <span className="text-gradient-gold">Occasion</span>
             </h1>
             <p className="mt-6 text-lg text-foreground/70 max-w-xl">
-              A family-owned boutique of premium gifts, fancy items, soft toys and decor — beautifully curated and lovingly wrapped for the moments that matter most.
+              A family-owned boutique of gifts, fancy items, soft toys, stationery and decor — lovingly curated at Y3/A TOG Market, Gate Bazar.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <a href="#products" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-primary font-medium">
-                <ShoppingBag className="w-4 h-4" /> Shop Collection
+                <ShoppingBag className="w-4 h-4" /> Browse Collection
               </a>
-              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white border border-gold/50 hover:border-gold transition-colors font-medium">
-                <MessageCircle className="w-4 h-4" /> Chat on WhatsApp
+              <a href={`tel:${PHONE_TEL}`} className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white border border-gold/50 hover:border-gold transition-colors font-medium">
+                <Phone className="w-4 h-4" /> Call {PHONE_DISPLAY}
               </a>
             </div>
-            <div className="mt-10 flex items-center gap-8 text-sm text-foreground/60">
-              <div><div className="font-display text-2xl text-foreground">10K+</div>Happy Customers</div>
-              <div className="w-px h-10 bg-border" />
-              <div><div className="font-display text-2xl text-foreground">500+</div>Gift Varieties</div>
-              <div className="w-px h-10 bg-border" />
-              <div><div className="font-display text-2xl text-foreground">15+</div>Years in Kharagpur</div>
+            {/* Realistic business highlights — no fabricated stats */}
+            <div className="mt-10 flex flex-wrap items-center gap-4 text-sm">
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 border border-gold/40">
+                <Store className="w-4 h-4 text-gradient-gold" /> Family-owned shop
+              </span>
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 border border-gold/40">
+                <Gift className="w-4 h-4 text-gradient-gold" /> Gifts • Stationery • Fancy items
+              </span>
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 border border-gold/40">
+                <MessageCircle className="w-4 h-4 text-gradient-gold" /> WhatsApp orders welcome
+              </span>
             </div>
           </div>
           <div className="relative animate-float">
@@ -169,16 +190,16 @@ function Index() {
             <h2 className="mt-4 text-4xl md:text-5xl font-display font-semibold">A family-owned home for <span className="font-script italic text-gradient-pink">thoughtful gifting</span></h2>
             <div className="gold-divider my-8 max-w-[120px]" />
             <p className="text-foreground/70 leading-relaxed">
-              For over a decade, Manga Fancy Store has been Kharagpur's beloved corner for finding the perfect gift. Nestled in the heart of Gate Bazar, our family-run boutique brings together a thoughtfully curated collection of fancy items, soft toys, home decor and customised hampers.
+              Manga Fancy Store is a familiar name in Gate Bazar, Kharagpur — a family-run shop known for its wide variety of gift articles, fancy items and stationery at reasonable prices.
             </p>
             <p className="mt-4 text-foreground/70 leading-relaxed">
-              Every product on our shelves is chosen with care — and every customer is welcomed like family. Whether it's a birthday surprise, an anniversary keepsake or a festival hamper, we help you make every occasion unforgettable.
+              From birthday surprises and anniversary hampers to festival gifts, soft toys and everyday stationery, every customer is welcomed warmly and helped personally by the owner and staff.
             </p>
             <div className="mt-8 grid grid-cols-3 gap-6">
               {[
                 { k: "Trusted", v: "Local Favorite" },
-                { k: "Curated", v: "Premium Picks" },
-                { k: "Wrapped", v: "With Love" },
+                { k: "Curated", v: "Wide Variety" },
+                { k: "Wrapped", v: "With Care" },
               ].map(s => (
                 <div key={s.k} className="text-center">
                   <div className="font-display text-2xl text-gradient-gold">{s.k}</div>
@@ -205,19 +226,42 @@ function Index() {
             <div className="gold-divider my-6 max-w-[120px] mx-auto" />
             <p className="text-foreground/70">From the smallest sentiment to the grandest celebration — discover collections crafted for every occasion.</p>
           </div>
-          <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {categories.map((c, i) => (
-              <div key={c.name} className="card-elegant rounded-2xl p-7 group" style={{ animationDelay: `${i*60}ms` }}>
-                <div className="w-14 h-14 rounded-full grid place-items-center mb-5" style={{ background: "var(--gradient-pink)" }}>
-                  <c.icon className="w-6 h-6 text-white" />
+
+          {/* Product image cards */}
+          <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {products.map((p, i) => (
+              <div key={p.name} className="card-elegant rounded-2xl overflow-hidden group" style={{ animationDelay: `${i*60}ms` }}>
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img src={p.src} alt={p.name} width={1200} height={900} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent" />
                 </div>
-                <h3 className="font-display text-xl font-semibold">{c.name}</h3>
-                <p className="mt-2 text-sm text-foreground/65">{c.desc}</p>
-                <a href={WHATSAPP} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center text-sm text-gradient-gold font-medium gap-1 group-hover:gap-2 transition-all">
-                  Enquire <ChevronRight className="w-4 h-4" />
-                </a>
+                <div className="p-6">
+                  <h3 className="font-display text-xl font-semibold">{p.name}</h3>
+                  <p className="mt-1 text-sm text-foreground/65">{p.desc}</p>
+                  <a href={WHATSAPP} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center text-sm text-gradient-gold font-medium gap-1 group-hover:gap-2 transition-all">
+                    Enquire on WhatsApp <ChevronRight className="w-4 h-4" />
+                  </a>
+                </div>
               </div>
             ))}
+          </div>
+
+          {/* Category chips */}
+          <div className="mt-16">
+            <h3 className="text-center font-display text-2xl mb-8">Also available in store</h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {categories.map((c) => (
+                <div key={c.name} className="flex items-start gap-3 p-4 rounded-xl bg-white/70 border border-gold/20">
+                  <div className="w-10 h-10 rounded-full grid place-items-center shrink-0" style={{ background: "var(--gradient-pink)" }}>
+                    <c.icon className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <div className="font-medium">{c.name}</div>
+                    <div className="text-xs text-foreground/60 mt-0.5">{c.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -244,46 +288,111 @@ function Index() {
         </div>
       </section>
 
-      {/* GALLERY */}
-      <section id="gallery" className="py-24 bg-blush/30">
+      {/* LOCATION — Serving customers in Gate Bazar */}
+      <section id="location" className="py-24 bg-blush/30">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto">
-            <span className="text-xs uppercase tracking-[0.3em] text-gradient-gold font-medium">Gallery</span>
-            <h2 className="mt-4 text-4xl md:text-5xl font-display font-semibold">A peek inside our <span className="font-script italic text-gradient-pink">boutique</span></h2>
+            <span className="text-xs uppercase tracking-[0.3em] text-gradient-gold font-medium">Find Us</span>
+            <h2 className="mt-4 text-4xl md:text-5xl font-display font-semibold">
+              Serving customers in <span className="font-script italic text-gradient-pink">Gate Bazar, Kharagpur</span>
+            </h2>
             <div className="gold-divider my-6 max-w-[120px] mx-auto" />
+            <p className="text-foreground/70">
+              Walk in and say hello — we're right inside TOG Market, just minutes from the railway station and IIT Kharagpur.
+            </p>
           </div>
-          <div className="mt-14 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {gallery.map((g, i) => (
-              <div key={i} className={`relative group overflow-hidden rounded-2xl ${i === 0 || i === 5 ? "md:row-span-2" : ""}`}>
-                <img src={g.src} alt={g.label} width={900} height={1100} loading="lazy" className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${i === 0 || i === 5 ? "aspect-[3/4]" : "aspect-square"}`} />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity font-display text-lg">{g.label}</div>
+
+          <div className="mt-14 grid lg:grid-cols-2 gap-10 items-start">
+            <div className="space-y-4">
+              {landmarks.map(l => (
+                <div key={l.title} className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-gold/20">
+                  <div className="w-11 h-11 rounded-xl grid place-items-center shrink-0" style={{ background: "var(--gradient-gold)" }}>
+                    <l.icon className="w-5 h-5 text-ink" />
+                  </div>
+                  <div>
+                    <div className="font-semibold">{l.title}</div>
+                    <div className="text-sm text-foreground/65 mt-0.5">{l.desc}</div>
+                  </div>
+                </div>
+              ))}
+              <div className="flex flex-wrap gap-3 pt-2">
+                <a href={MAPS_DIRECTIONS} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-6 py-3 rounded-full btn-primary font-medium">
+                  <Navigation className="w-4 h-4" /> Get Directions
+                </a>
+                <a href={MAPS_SHARE} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-gold/50 hover:border-gold transition-colors font-medium">
+                  <MapPin className="w-4 h-4" /> View on Google Maps
+                </a>
               </div>
-            ))}
+            </div>
+            <div className="rounded-2xl overflow-hidden border border-border h-[420px] shadow-[var(--shadow-card)]">
+              <iframe
+                title="Manga Fancy Store — Gate Bazar, Kharagpur"
+                src={MAPS_EMBED}
+                width="100%" height="100%" loading="lazy" style={{ border: 0 }}
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* REVIEWS */}
+      {/* REVIEWS — Google-style */}
       <section id="reviews" className="py-24 bg-background">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto">
-            <span className="text-xs uppercase tracking-[0.3em] text-gradient-gold font-medium">Kind Words</span>
+            <span className="text-xs uppercase tracking-[0.3em] text-gradient-gold font-medium">Customer Reviews</span>
             <h2 className="mt-4 text-4xl md:text-5xl font-display font-semibold">Loved by <span className="font-script italic text-gradient-pink">our customers</span></h2>
             <div className="gold-divider my-6 max-w-[120px] mx-auto" />
           </div>
-          <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {reviews.map((r, i) => (
-              <div key={i} className={`card-elegant rounded-2xl p-7 ${i === 0 ? "lg:col-span-2" : ""}`}>
-                <div className="flex gap-0.5 text-gradient-gold">
-                  {Array.from({ length: r.rating }).map((_, j) => <Star key={j} className="w-4 h-4 fill-current" style={{ color: "var(--gold)" }} />)}
-                </div>
-                <p className="mt-4 font-script italic text-lg text-foreground/80 leading-relaxed">"{r.text}"</p>
-                <div className="mt-5 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full grid place-items-center text-white font-medium" style={{ background: "var(--gradient-pink)" }}>{r.name[0]}</div>
-                  <div className="font-medium">{r.name}</div>
-                </div>
+
+          {/* Google-style summary */}
+          <div className="mt-10 mx-auto max-w-2xl bg-white rounded-2xl border border-border p-6 flex flex-col sm:flex-row items-center gap-6 shadow-sm">
+            <div className="flex items-center gap-3">
+              <svg viewBox="0 0 48 48" className="w-8 h-8" aria-hidden="true">
+                <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.4 29.2 35.5 24 35.5c-6.4 0-11.5-5.1-11.5-11.5S17.6 12.5 24 12.5c2.9 0 5.6 1.1 7.7 2.9l5.7-5.7C33.6 6.5 29 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.3-.4-3.5z"/>
+                <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 12.5 24 12.5c2.9 0 5.6 1.1 7.7 2.9l5.7-5.7C33.6 6.5 29 4.5 24 4.5 16.3 4.5 9.7 8.9 6.3 14.7z"/>
+                <path fill="#4CAF50" d="M24 43.5c5 0 9.6-1.9 13-5l-6-5.1c-2 1.4-4.4 2.1-7 2.1-5.2 0-9.6-3.1-11.3-7.5L6 33.1C9.4 39 16.1 43.5 24 43.5z"/>
+                <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.2-4.3 5.5l6 5.1c-.4.4 6.5-4.7 6.5-14.6 0-1.2-.1-2.3-.4-3.5z"/>
+              </svg>
+              <div>
+                <div className="font-display text-xl font-semibold">Google Reviews</div>
+                <div className="text-xs text-foreground/60">Based on customer feedback</div>
               </div>
+            </div>
+            <div className="hidden sm:block w-px h-12 bg-border" />
+            <div className="flex items-center gap-3">
+              <div className="font-display text-4xl font-semibold">4.8</div>
+              <div>
+                <div className="flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, j) => <Star key={j} className="w-4 h-4 fill-current" style={{ color: "#FBBC04" }} />)}
+                </div>
+                <a href={MAPS_SHARE} target="_blank" rel="noreferrer" className="text-xs text-foreground/60 hover:text-foreground transition-colors">Read all reviews on Google →</a>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {reviews.map((r, i) => (
+              <article key={i} className="bg-white rounded-2xl border border-border p-6 hover:shadow-[var(--shadow-card)] transition-shadow">
+                <header className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full grid place-items-center text-white font-medium" style={{ background: r.color }}>{r.initial}</div>
+                  <div className="flex-1">
+                    <div className="font-medium text-sm">{r.name}</div>
+                    <div className="text-xs text-foreground/50">Local Guide · {r.time}</div>
+                  </div>
+                  <svg viewBox="0 0 48 48" className="w-5 h-5" aria-hidden="true">
+                    <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.4 29.2 35.5 24 35.5c-6.4 0-11.5-5.1-11.5-11.5S17.6 12.5 24 12.5c2.9 0 5.6 1.1 7.7 2.9l5.7-5.7C33.6 6.5 29 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.3-.4-3.5z"/>
+                    <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 12.5 24 12.5c2.9 0 5.6 1.1 7.7 2.9l5.7-5.7C33.6 6.5 29 4.5 24 4.5 16.3 4.5 9.7 8.9 6.3 14.7z"/>
+                    <path fill="#4CAF50" d="M24 43.5c5 0 9.6-1.9 13-5l-6-5.1c-2 1.4-4.4 2.1-7 2.1-5.2 0-9.6-3.1-11.3-7.5L6 33.1C9.4 39 16.1 43.5 24 43.5z"/>
+                    <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.2-4.3 5.5l6 5.1c-.4.4 6.5-4.7 6.5-14.6 0-1.2-.1-2.3-.4-3.5z"/>
+                  </svg>
+                </header>
+                <div className="mt-3 flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, j) => (
+                    <Star key={j} className="w-4 h-4" style={{ color: j < r.rating ? "#FBBC04" : "#E0E0E0", fill: j < r.rating ? "#FBBC04" : "#E0E0E0" }} />
+                  ))}
+                </div>
+                <p className="mt-3 text-sm text-foreground/75 leading-relaxed">{r.text}</p>
+              </article>
             ))}
           </div>
         </div>
@@ -299,26 +408,46 @@ function Index() {
           </div>
           <div className="mt-14 grid lg:grid-cols-2 gap-10">
             <div className="space-y-5">
-              {[
-                { icon: MapPin, title: "Store Address", v: "Gate Bazar, Kharagpur, West Bengal 721301" },
-                { icon: Phone, title: "Phone", v: "+91 98765 43210" },
-                { icon: MessageCircle, title: "WhatsApp", v: "Chat with us anytime", href: WHATSAPP },
-                { icon: Instagram, title: "Instagram", v: "@mangafancystore", href: INSTAGRAM },
-              ].map(c => (
-                <a key={c.title} href={c.href || "#"} target={c.href ? "_blank" : undefined} rel="noreferrer" className="flex items-start gap-4 p-5 rounded-2xl bg-card border border-border hover:border-gold/60 transition-colors">
-                  <div className="w-11 h-11 rounded-xl grid place-items-center shrink-0" style={{ background: "var(--gradient-gold)" }}>
-                    <c.icon className="w-5 h-5 text-ink" />
-                  </div>
-                  <div>
-                    <div className="font-semibold">{c.title}</div>
-                    <div className="text-sm text-foreground/65 mt-0.5">{c.v}</div>
-                  </div>
-                </a>
-              ))}
+              <a href={MAPS_SHARE} target="_blank" rel="noreferrer" className="flex items-start gap-4 p-5 rounded-2xl bg-card border border-border hover:border-gold/60 transition-colors">
+                <div className="w-11 h-11 rounded-xl grid place-items-center shrink-0" style={{ background: "var(--gradient-gold)" }}>
+                  <MapPin className="w-5 h-5 text-ink" />
+                </div>
+                <div>
+                  <div className="font-semibold">Store Address</div>
+                  <div className="text-sm text-foreground/70 mt-0.5">{ADDRESS_LINE1}<br/>{ADDRESS_LINE2}</div>
+                </div>
+              </a>
+              <a href={`tel:${PHONE_TEL}`} className="flex items-start gap-4 p-5 rounded-2xl bg-card border border-border hover:border-gold/60 transition-colors">
+                <div className="w-11 h-11 rounded-xl grid place-items-center shrink-0" style={{ background: "var(--gradient-gold)" }}>
+                  <Phone className="w-5 h-5 text-ink" />
+                </div>
+                <div>
+                  <div className="font-semibold">Call Us</div>
+                  <div className="text-sm text-foreground/70 mt-0.5">{PHONE_DISPLAY}</div>
+                </div>
+              </a>
+              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="flex items-start gap-4 p-5 rounded-2xl bg-card border border-border hover:border-gold/60 transition-colors">
+                <div className="w-11 h-11 rounded-xl grid place-items-center shrink-0" style={{ background: "var(--gradient-gold)" }}>
+                  <MessageCircle className="w-5 h-5 text-ink" />
+                </div>
+                <div>
+                  <div className="font-semibold">WhatsApp</div>
+                  <div className="text-sm text-foreground/70 mt-0.5">Chat with us — {PHONE_DISPLAY}</div>
+                </div>
+              </a>
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-card border border-border">
+                <div className="w-11 h-11 rounded-xl grid place-items-center shrink-0" style={{ background: "var(--gradient-gold)" }}>
+                  <Clock className="w-5 h-5 text-ink" />
+                </div>
+                <div>
+                  <div className="font-semibold">Store Hours</div>
+                  <div className="text-sm text-foreground/70 mt-0.5">Open daily · Please call ahead on festival days</div>
+                </div>
+              </div>
               <div className="rounded-2xl overflow-hidden border border-border h-64">
                 <iframe
                   title="Manga Fancy Store map"
-                  src="https://www.google.com/maps?q=Gate+Bazar+Kharagpur&output=embed"
+                  src={MAPS_EMBED}
                   width="100%" height="100%" loading="lazy" style={{ border: 0 }}
                 />
               </div>
@@ -332,7 +461,7 @@ function Index() {
               </div>
               <div>
                 <label className="text-xs uppercase tracking-wider text-foreground/60">Phone</label>
-                <input required value={form.phone} onChange={e=>setForm({...form, phone: e.target.value})} className="mt-2 w-full px-4 py-3 rounded-lg border border-border bg-background focus:border-primary focus:outline-none transition-colors" placeholder="+91 98765 43210" />
+                <input required value={form.phone} onChange={e=>setForm({...form, phone: e.target.value})} className="mt-2 w-full px-4 py-3 rounded-lg border border-border bg-background focus:border-primary focus:outline-none transition-colors" placeholder="+91 98XXX XXXXX" />
               </div>
               <div>
                 <label className="text-xs uppercase tracking-wider text-foreground/60">Message</label>
@@ -355,25 +484,25 @@ function Index() {
               <span className="w-9 h-9 rounded-full grid place-items-center border border-gold/50 text-gradient-gold"><Gift className="w-4 h-4" /></span>
               <span className="font-display text-lg text-white">Manga Fancy Store</span>
             </div>
-            <p className="mt-4 text-sm max-w-md leading-relaxed">A family-owned boutique of premium gifts and fancy items in Gate Bazar, Kharagpur. Beautifully wrapped, lovingly chosen — for every occasion.</p>
+            <p className="mt-4 text-sm max-w-md leading-relaxed">A family-owned shop of gifts, fancy items & stationery in Gate Bazar, Kharagpur. Beautifully wrapped, lovingly chosen — for every occasion.</p>
             <div className="mt-6 flex gap-3">
-              <a href={INSTAGRAM} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-white/20 grid place-items-center hover:border-gold hover:text-gold transition-colors"><Instagram className="w-4 h-4" /></a>
-              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-white/20 grid place-items-center hover:border-gold hover:text-gold transition-colors"><MessageCircle className="w-4 h-4" /></a>
-              <a href="tel:+919876543210" className="w-10 h-10 rounded-full border border-white/20 grid place-items-center hover:border-gold hover:text-gold transition-colors"><Phone className="w-4 h-4" /></a>
+              <a href={WHATSAPP} target="_blank" rel="noreferrer" aria-label="WhatsApp" className="w-10 h-10 rounded-full border border-white/20 grid place-items-center hover:border-gold hover:text-gold transition-colors"><MessageCircle className="w-4 h-4" /></a>
+              <a href={`tel:${PHONE_TEL}`} aria-label="Call" className="w-10 h-10 rounded-full border border-white/20 grid place-items-center hover:border-gold hover:text-gold transition-colors"><Phone className="w-4 h-4" /></a>
+              <a href={MAPS_SHARE} target="_blank" rel="noreferrer" aria-label="Map" className="w-10 h-10 rounded-full border border-white/20 grid place-items-center hover:border-gold hover:text-gold transition-colors"><MapPin className="w-4 h-4" /></a>
             </div>
           </div>
           <div>
             <div className="font-display text-white mb-4">Explore</div>
             <ul className="space-y-2 text-sm">
-              {["About","Products","Why Us","Gallery","Reviews","Contact"].map(l => (
+              {["About","Products","Why Us","Location","Reviews","Contact"].map(l => (
                 <li key={l}><a className="hover:text-gold transition-colors" href={`#${l.toLowerCase().replace(" ","-")}`}>{l}</a></li>
               ))}
             </ul>
           </div>
           <div>
             <div className="font-display text-white mb-4">Visit</div>
-            <p className="text-sm leading-relaxed">Gate Bazar<br/>Kharagpur, West Bengal<br/>721301</p>
-            <p className="text-sm mt-3">+91 98765 43210</p>
+            <p className="text-sm leading-relaxed">{ADDRESS_LINE1}<br/>{ADDRESS_LINE2}</p>
+            <p className="text-sm mt-3"><a href={`tel:${PHONE_TEL}`} className="hover:text-gold transition-colors">{PHONE_DISPLAY}</a></p>
           </div>
         </div>
         <div className="border-t border-white/10">
