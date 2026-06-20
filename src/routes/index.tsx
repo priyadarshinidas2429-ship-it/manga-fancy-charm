@@ -38,10 +38,10 @@ const MAPS_EMBED = "https://www.google.com/maps?q=New+Manga+Fancy+Store+TOG+Mark
 const MAPS_DIRECTIONS = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent("New Manga Fancy Store, TOG Market, Gate Bazar, Kharagpur");
 
 const categories = [
-  { icon: Cake, name: "Birthday Gifts", desc: "Make every birthday unforgettable" },
-  { icon: Heart, name: "Anniversary Gifts", desc: "Celebrate love beautifully" },
+  { icon: Cake, name: "Birthday Hampers", desc: "Make every birthday unforgettable" },
+  { icon: Heart, name: "Couple Gifts", desc: "Celebrate love beautifully" },
   { icon: Sparkles, name: "Customized Gifts", desc: "Personalised just for them" },
-  { icon: Home, name: "Home Decor", desc: "Elegance for every corner" },
+  { icon: Home, name: "Home Decoration", desc: "Elegance for every corner" },
   { icon: Smile, name: "Soft Toys", desc: "Cuddly companions to adore" },
   { icon: Mail, name: "Greeting Cards & Stationery", desc: "Heartfelt words & quality stationery" },
   { icon: ShoppingBag, name: "Fashion Accessories", desc: "Style that turns heads" },
